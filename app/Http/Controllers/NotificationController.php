@@ -55,7 +55,11 @@ class NotificationController extends Controller
             $this->messaging->send($message);
 
             // Save to database
-            $user->notify(new \App\Notifications\SimpleNotification($notificationText));
+            $user->notify(new \App\Notifications\SimpleNotification([
+                'message' => $notificationText,
+                'title' => 'New Notification',
+                'user_id' => $userId
+            ]));
 
             return response()->json(['message' => 'Notification sent successfully via Firebase and saved to database']);
         } catch (\Exception $e) {
